@@ -1,0 +1,33 @@
+%{
+#include <stdio.h>
+#include <string.h> // Required for strchr()
+
+int vow_count = 0;
+int const_count = 0;
+%}
+
+%%
+
+[aeiouAEIOU]   { vow_count++; }  // Count vowels
+[a-zA-Z]       { 
+                    if (!strchr("aeiouAEIOU", yytext[0])) 
+                        const_count++;  // Count consonants, only if not a vowel
+                }
+
+[^a-zA-Z\n]    ;  // Ignore non-alphabetic characters (including spaces, numbers, etc.)
+
+%%
+
+int yywrap() { return 1; }
+
+int main() {
+    printf("Enter the string of vowels and consonants: ");
+    fflush(stdout); // Ensure the message is printed before input
+
+    yylex(); // Process input
+
+    // Print the final counts after processing all the input
+    printf("Number of vowels: %d, Number of consonants: %d\n", vow_count, const_count);
+
+    return 0;
+}

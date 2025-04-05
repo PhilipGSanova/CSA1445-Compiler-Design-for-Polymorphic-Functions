@@ -1,0 +1,27 @@
+%{
+#include <stdio.h>
+
+// Initialize counters
+int nlines = 0, nwords = 0, nchars = 0;
+%}
+
+%%
+
+\n        { nchars++; nlines++; }
+[^ \n\t]+ { nwords++; nchars += yyleng; }
+.         { nchars++; }
+
+%%
+
+int yywrap(void) {
+    return 1;  // Required in `flex` to indicate end of input
+}
+
+int main() {
+    yylex();  // Start scanning input
+
+    // Print the results
+    printf("Lines = %d\nChars = %d\nWords = %d\n", nlines, nchars, nwords);
+
+    return 0;
+}

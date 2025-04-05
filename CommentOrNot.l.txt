@@ -1,0 +1,15 @@
+%{
+#include<stdio.h>
+%}
+%%
+\/\/.* { printf("\n%s is COMMENT", yytext); }
+.+     { printf("\n%s is NOT A COMMENT", yytext); }
+%%
+int yywrap() {
+    return 1;  // Indicate end of input
+}
+
+int main() {
+    while(yylex());
+    return 0;
+}

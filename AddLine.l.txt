@@ -1,0 +1,33 @@
+%{
+#include <stdio.h>
+int ln = 0;
+FILE *yyin, *yyout;
+%}
+
+%%
+
+.* { ln++; fprintf(yyout, "\n%d:%s", ln, yytext); }
+
+%%
+
+int yywrap() { return 1; }
+
+int main() {
+    yyin = fopen("sample.txt", "r");   // Open input file
+    if (yyin == NULL) {
+        fprintf(stderr, "Error opening input file\n");
+        return 1;
+    }
+
+    yyout = fopen("output.txt", "w");     // Open output file
+    if (yyout == NULL) {
+        fprintf(stderr, "Error opening output file\n");
+        return 1;
+    }
+
+    yylex();   // Process the input file
+    fclose(yyin);  // Close input file
+    fclose(yyout); // Close output file
+
+    return 0;
+}

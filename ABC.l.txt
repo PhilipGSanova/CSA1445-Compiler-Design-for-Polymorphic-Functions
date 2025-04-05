@@ -1,0 +1,22 @@
+%{
+#include <stdio.h>
+%}
+
+%%
+
+[a-z] { printf("%c", yytext[0] - 32); } // Convert lowercase to uppercase
+.     { printf("%c", yytext[0]); }      // Print other characters as is
+\n    {}                                // Ignore newlines
+
+%%
+
+int yywrap() {
+    return 1; // Indicate end of input
+}
+
+int main() {
+    printf("\nEnter the string: ");
+    yylex();
+    printf("\n");
+    return 0;
+}

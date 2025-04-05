@@ -1,0 +1,20 @@
+%{
+#include <stdio.h>
+int pos = 0, neg = 0;
+%}
+
+%%
+
+"-"[0-9]+ { neg++; printf("%s\n", yytext); }
+[0-9]+    { pos++; printf("%s\n", yytext); }
+
+%%
+
+int yywrap() { return 1; }
+
+int main(int argc, char *argv[]) {
+    if (argc > 1 && !(yyin = fopen(argv[1], "r"))) return 1;
+    yylex();
+    printf("Pos: %d, Neg: %d\n", pos, neg);
+    return 0;
+}

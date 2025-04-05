@@ -1,0 +1,20 @@
+%{
+#include <stdio.h>
+#include <string.h>
+int i = 0;
+%}
+
+%%
+
+[a-zA-Z0-9]+  { i++; }  /* Match words (alphanumeric sequences) */
+\n            { printf("Word count: %d\n", i); i = 0; } /* Print count at newline */
+
+%%
+
+int yywrap() { return 1; }
+
+int main() {   
+    printf("Enter the Sentence:\n"); 
+    yylex();  
+    return 0;
+}

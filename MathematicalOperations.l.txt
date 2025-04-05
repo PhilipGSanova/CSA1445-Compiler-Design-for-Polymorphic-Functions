@@ -1,0 +1,21 @@
+%{
+#include<stdio.h>
+%}
+
+%%
+
+[=+\-*/]  { printf("\nvalid"); }
+.         { printf("\ninvalid"); }
+
+%%
+
+int yywrap() {
+    return 1;
+}
+
+int main() {
+    printf("Enter the input: ");
+    fflush(stdout); // Ensures the prompt is printed before taking input
+    yylex();
+    return 0;
+}

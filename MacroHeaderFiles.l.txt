@@ -1,0 +1,27 @@
+%{
+#include <stdio.h>
+FILE* yyin;
+int nmacro = 0, nheader = 0; // Initialize variables
+%}
+%%
+^#define  { nmacro++; } 
+^#include { nheader++; } 
+%%
+int yywrap(void) { 
+    return 1; 
+} 
+
+int main(int argc, char* argv[]) { 
+if(argc<2){
+printf("Usage: %s <input_file>\n", argv[0]);
+return 1;
+}
+yyin=fopen(argv[1],"r");
+if(!yyin){
+}
+    yylex(); 
+fclose(yyin);    
+printf("Number of macros defined = %d\n", nmacro); 
+    printf("Number of header files included = %d\n", nheader); 
+    return 0;
+}
